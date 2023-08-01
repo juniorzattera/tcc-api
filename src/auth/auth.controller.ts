@@ -14,11 +14,7 @@ export class AuthController {
     if (!user) {
       return { message: 'Credenciais inválidas' };
     }
-    const token = await this.authService.generateToken({
-      sub: user.id,
-      role: user.role,
-      username: user.username,
-    });
-    return { access_token: token };
+
+    return user.id;
   }
 }
