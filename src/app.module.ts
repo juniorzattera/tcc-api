@@ -5,7 +5,8 @@ import { AuthService } from './auth/auth.service';
 import { UserController } from './users/user.controller';
 import { UserService } from './users/user.service';
 import { User } from './users/user.entity';
-
+import { JwtModule } from '@nestjs/jwt';
+import { jwtConstants } from './auth/constants';
 import { HealthController } from './health/health.controller';
 
 @Module({
@@ -22,6 +23,11 @@ import { HealthController } from './health/health.controller';
       migrationsRun: true,
     }), // mudar para env
     TypeOrmModule.forFeature([User]),
+    JwtModule.register({
+      global: true,
+      secret: jwtConstants.secret,
+      signOptions: { expiresIn: '1h' },
+    }),
   ],
   controllers: [HealthController, AuthController, UserController],
   providers: [AuthService, UserService],
