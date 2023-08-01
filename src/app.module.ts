@@ -1,35 +1,27 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthController } from './auth/auth.controller';
-import { AuthService } from './auth/auth.service';
-import { UserController } from './users/user.controller';
-import { UserService } from './users/user.service';
-import { User } from './users/user.entity';
-import { JwtModule } from '@nestjs/jwt';
-import { jwtConstants } from './auth/constants';
-import { HealthController } from './health/health.controller';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './users/user.module';
+import { HealthModule } from './health/health.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'api',
-      password: 'apipassword',
-      database: 'main',
+      host: process.env.DB_HOST,
+      port: parseInt(process.env.DB_PORT, 10),
+      username: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
       entities: ['dist/**/*.entity{.ts,.js}'],
       synchronize: true,
       migrationsRun: true,
-    }), // mudar para env
-    TypeOrmModule.forFeature([User]),
-    JwtModule.register({
-      global: true,
-      secret: jwtConstants.secret,
-      signOptions: { expiresIn: '1h' },
     }),
+    AuthModule,
+    UserModule,
+    HealthModule,
   ],
-  controllers: [HealthController, AuthController, UserController],
-  providers: [AuthService, UserService],
 })
 export class AppModule {}
