@@ -14,7 +14,23 @@ export class UserService {
     return this.userRepository.findOne({ where: { username } });
   }
 
+  async findById(id: number): Promise<User | undefined> {
+    return this.userRepository.findOne({ where: { id } });
+  }
+
   async create(user: User): Promise<User> {
     return this.userRepository.save(user);
+  }
+
+  async update(user: User): Promise<User> {
+    return this.userRepository.save(user);
+  }
+
+  async findAll(): Promise<User[]> {
+    return this.userRepository.find({ select: ['id', 'username', 'role'] });
+  }
+
+  async remove(id: number): Promise<void> {
+    await this.userRepository.delete(id);
   }
 }
