@@ -7,6 +7,7 @@ import {
   UseGuards,
   Get,
   Request,
+  HttpException,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { JwtService } from '@nestjs/jwt';
@@ -27,7 +28,7 @@ export class AuthController {
       body.password,
     );
     if (!user) {
-      return { message: 'Credenciais inválidas' };
+      throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
     }
 
     const payload = { sub: user.id, role: user.role };
