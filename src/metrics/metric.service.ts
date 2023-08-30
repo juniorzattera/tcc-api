@@ -24,6 +24,7 @@ export class MetricService {
         'cont_aut',
         'cont_man1',
         'cont_man2',
+        'cont_chillers',
       ],
       order: {
         datahora: 'DESC',

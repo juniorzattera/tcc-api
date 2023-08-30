@@ -25,4 +25,7 @@ export class NoriasCount {
 
   @Column()
   cont_man2: number;
+
+  @Column()
+  cont_chillers: number;
 }
