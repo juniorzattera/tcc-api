@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { NoriasCount } from './norias-count.entity';
 import { NoriasSpeed } from './norias-speed.entity';
+import { Ping } from './ping.entity';
 
 @Injectable()
 export class MetricService {
@@ -11,6 +12,8 @@ export class MetricService {
     private noriasCountRepository: Repository<NoriasCount>,
     @InjectRepository(NoriasSpeed)
     private noriasSpeedRepository: Repository<NoriasSpeed>,
+    @InjectRepository(Ping)
+    private pingRepository: Repository<Ping>,
   ) {}
 
   async findCount(): Promise<NoriasCount[]> {
@@ -44,6 +47,16 @@ export class MetricService {
         'vel_man1',
         'vel_man2',
       ],
+      order: {
+        datahora: 'DESC',
+      },
+      take: 1,
+    });
+  }
+
+  async findPing(): Promise<Ping[]> {
+    return this.pingRepository.find({
+      select: ['id', 'datahora', 'camera_sangria'],
       order: {
         datahora: 'DESC',
       },

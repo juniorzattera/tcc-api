@@ -1,17 +1,8 @@
-// construa um controller
-
-import {
-  Controller,
-  Get,
-  //   Post,
-  //   Body,
-  //   Param,
-  //   Delete,
-  //   Put,
-} from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { MetricService } from './metric.service';
 import { NoriasSpeed } from './norias-speed.entity';
 import { NoriasCount } from './norias-count.entity';
+import { Ping } from './ping.entity';
 
 @Controller('metrics')
 export class MetricController {
@@ -25,5 +16,10 @@ export class MetricController {
   @Get('speed')
   async findSpeed(): Promise<NoriasSpeed[]> {
     return this.metricService.findSpeed();
+  }
+
+  @Get('ping')
+  async findPing(): Promise<Ping[]> {
+    return this.metricService.findPing();
   }
 }
