@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { InjectRepository, InjectEntityManager } from '@nestjs/typeorm';
+import { Repository, EntityManager, Between } from 'typeorm';
 import { NoriasCount } from './norias-count.entity';
 import { NoriasSpeed } from './norias-speed.entity';
 import { Ping } from './ping.entity';
@@ -14,6 +14,7 @@ export class MetricService {
     private noriasSpeedRepository: Repository<NoriasSpeed>,
     @InjectRepository(Ping)
     private pingRepository: Repository<Ping>,
+    @InjectEntityManager() private readonly entityManager: EntityManager,
   ) {}
 
   async findCount(): Promise<NoriasCount[]> {
@@ -62,5 +63,30 @@ export class MetricService {
       },
       take: 1,
     });
+  }
+
+  async findSpeedBetweenDates(start: Date, end: Date): Promise<NoriasSpeed[]> {
+    return this.noriasSpeedRepository.find({
+      select: [
+        'id',
+        'datahora',
+        'vel_esc_evc',
+        'vel_sif',
+        'vel_aut',
+        'vel_man1',
+        'vel_man2',
+      ],
+      where: {
+        datahora: Between(start, end),
+      },
+      order: {
+        datahora: 'ASC',
+      },
+    });
+  }
+
+  async findCounter(): Promise<NoriasCount[]> {
+    const query = 'SELECT * FROM contadores_norias ORDER BY id DESC LIMIT 1';
+    return this.entityManager.query(query);
   }
 }
