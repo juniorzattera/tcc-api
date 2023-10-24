@@ -86,7 +86,11 @@ export class MetricService {
   }
 
   async findCounter(): Promise<NoriasCount[]> {
-    const query = 'SELECT * FROM contadores_norias ORDER BY id DESC LIMIT 1';
+    const query = `SELECT *
+    FROM contadores_norias
+      WHERE datahora >= DATE_SUB(NOW(), INTERVAL 15 DAY)
+        AND HOUR(datahora) = 0 
+        AND MINUTE(datahora) = 40;`;
     return this.entityManager.query(query);
   }
 }
