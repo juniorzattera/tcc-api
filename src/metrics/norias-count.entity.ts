@@ -9,6 +9,12 @@ export class NoriasCount {
   datahora: Date;
 
   @Column()
+  cont_pendura: number;
+  
+  @Column()
+  diferenca_pen_esc: number;
+
+  @Column()
   cont_esc: number;
 
   @Column()
