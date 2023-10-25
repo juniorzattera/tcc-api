@@ -22,6 +22,7 @@ export class MetricService {
       select: [
         'id',
         'datahora',
+        'cont_pendura',        
         'cont_esc',
         'cont_evc',
         'cont_sif',
