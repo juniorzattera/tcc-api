@@ -12,10 +12,22 @@ export class NoriasCount {
   cont_esc: number;
 
   @Column()
+  cont_evisceradora: number;
+
+  @Column()
   cont_evc: number;
 
   @Column()
   cont_sif: number;
+
+  @Column()
+  miudos_antes: number;
+
+  @Column()
+  miudos_depois: number;
+
+  @Column()
+  diferenca_miudos: number;
 
   @Column()
   cont_aut: number;

@@ -87,10 +87,11 @@ export class MetricService {
 
   async findCounter(): Promise<NoriasCount[]> {
     const query = `SELECT *
-    FROM contadores_norias
+      FROM contadores_norias
       WHERE datahora >= DATE_SUB(NOW(), INTERVAL 15 DAY)
         AND HOUR(datahora) = 0 
-        AND MINUTE(datahora) = 40;`;
+        AND MINUTE(datahora) = 40
+      ORDER BY datahora DESC;`; 
     return this.entityManager.query(query);
   }
 }
