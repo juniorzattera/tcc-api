@@ -15,6 +15,9 @@ export class NoriasCount {
   diferenca_pen_esc: number;
 
   @Column()
+  diferenca_evc_sif: number;
+
+  @Column()
   cont_esc: number;
 
   @Column()
